@@ -7,7 +7,7 @@ export class ChatService {
     return socket;
   }
 
-  public static sendMessage() {}
-
-  public static listenMessage() {}
+  public static sendMessage(socket: Socket, message: string) {
+    socket.emit("message", message);
+  }
 }

@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import wallpaper from "@/app/images/wallpaper.png";
 import { BsChatLeftText } from "react-icons/bs";
 import { BiSolidSend } from "react-icons/bi";
+import MessageBubble from "@/app/components/MessageBubble";
+import { ChatService } from "@/app/services/ChatService";
 
 export default function ChatPage() {
   const router = useRouter();
@@ -15,6 +17,7 @@ export default function ChatPage() {
     router.push("/");
     return;
   }
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const messageRef = useRef<HTMLInputElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -28,14 +31,21 @@ export default function ChatPage() {
     };
   }, [socket]);
 
+  useEffect(() => {
+    scrollDown();
+  }, [messages]);
+
   const handleSubmit = () => {
-    socket.emit("message", messageRef.current?.value ?? "");
     if (messageRef.current) {
+      ChatService.sendMessage(socket, messageRef.current.value);
       messageRef.current.value = "";
     }
   };
 
-  const colorsUser = ["#ff8800"];
+  const scrollDown = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className="flex flex-col justify-center items-center min-h-dvh">
       <h1 className=" flex bg-my-primary-dark w-full text-my-primary-lighter text-3xl justify-center font-extrabold italic gap-x-3 fixed top-0">
@@ -56,25 +66,10 @@ export default function ChatPage() {
       >
         <ul className="flex flex-col gap-y-3 w-full">
           {messages.map((msg, i) => (
-            <li
-              key={i}
-              className={`flex max-w-7/10 p-2 rounded-sm ${
-                msg.userName == userName
-                  ? "self-end bg-my-primary-lighter"
-                  : "selfstart bg-white"
-              }`}
-            >
-              <div className="flex flex-col">
-                <h2 className="font-bold text-my-contrast">{`${
-                  msg.userName == userName
-                    ? `${msg.userName} (Eu)`
-                    : msg.userName
-                }`}</h2>
-                <p className="flex text-justify text-wrap max-w-full break-all">{msg.text}</p>
-              </div>
-            </li>
+            <MessageBubble index={i} message={msg} key={i} />
           ))}
         </ul>
+        <div ref={bottomRef}></div>
         <div className="flex bg-my-primary-dark  w-full max-w-250 rounded-2xl p-3 gap-x-3 fixed bottom-0">
           <input
             type="text"

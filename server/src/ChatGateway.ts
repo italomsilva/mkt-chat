@@ -13,16 +13,22 @@ import { Server, Socket } from 'socket.io';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleDisconnect(@ConnectedSocket() client: Socket) {
     this.server.emit('receive_message', {
-      text: "Usuario Saiu",
+      text: `Usuario ${client.data.userName} Saiu`,
       userId: client.id,
       userName: client.data.userName,
+      isServerMessage: true      
     });
   }
   @WebSocketServer()
   server: Server;
   handleConnection(@ConnectedSocket() client: Socket) {
     console.log('Usuario conectado', client.id);
-    client.emit('message', 'jkshdfj');
+    this.server.emit('receive_message', {
+      text: 'Usuario Entrou',
+      userId: client.id,
+      userName: client.data.userName,
+      isServerMessage: true
+    });
     return 'Usuario conectado';
   }
 
@@ -43,6 +49,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       text: message,
       userId: client.id,
       userName: client.data.userName,
+      isServerMessage: false
     });
   }
 }
