@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  /* Suas cores do AppTheme transformadas em variáveis CSS */
+  --primary-dark: #26514D; /* Ajustei para 6 dígitos */
+  --white-custom: #E1F2F2;
+  --red-custom: #F83A3F;
+  --primary-medium: #49878A;
+  --primary-light: #66AEAB;
+  --primary-light-hover: #66aeaa75;
+  --primary-lighter: #a9e7e3;
+  --contrast: #442B48;
+
+  --background: var(--white-custom); /* Fundo padrão será sua cor escura */
+  --foreground: var(--primary-dark);
+}
+
+@theme inline {
+  --color-my-primary-dark: var(--primary-dark);
+  --color-my-white-custom: var(--white-custom);
+  --color-my-red-custom: var(--red-custom);
+  --color-my-primary-medium: var(--primary-medium);
+  --color-my-primary-light: var(--primary-light);
+  --color-my-primary-light-hover: var(--primary-light-hover);
+  --color-my-primary-lighter: var(--primary-lighter);
+  --color-my-contrast: var(--contrast);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

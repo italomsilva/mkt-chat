@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./server
+    ports:
+      - "3060:3060" 
+    environment:
+      - PORT=3060
+    networks:
+      - chat-network
+
+  frontend:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SOCKET_URL=http://localhost:3060
+    networks:
+      - chat-network
+    depends_on:
+      - backend 
+
+networks:
+  chat-network:
+    driver: bridge
