@@ -43,7 +43,7 @@ Você precisará ter apenas o **Docker** e o **Docker Compose** instalados.
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/italomsilva/mkt-chat.git](https://github.com/italomsilva/mkt-chat.git)
+    git clone https://github.com/italomsilva/mkt-chat.git
     cd mkt-chat
     ```
 
